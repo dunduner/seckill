@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-index.jsp
+这是首页！
 
 </body>
 </html>

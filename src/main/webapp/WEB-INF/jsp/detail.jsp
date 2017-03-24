@@ -33,7 +33,7 @@
 	   			<div class="modal-header">
 	   				<h3 class="modal-title text-center">
 	   					<span class="glyphicon glyphicon-phone"></span>
-	   					秒杀电话注册一下，方可秒杀
+	   					(｡･∀･)ﾉﾞ嗨，秒杀电话注册一下，方可秒杀
 	   				</h3>
 	   			</div>
 	   			<div class="modal-body">
@@ -56,6 +56,8 @@
 	   	</div>
    </div>
    <!--登录弹出层，输入电话  结束-->
+
+
    </body>
 		<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 		<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -69,7 +71,9 @@
 		<script src="http://cdn.bootcss.com/jquery.countdown/2.1.0/jquery.countdown.min.js"></script>
 		<!-- 开始编写交互逻辑 -->
 		<script src="<%=basePath %>resources/script/seckill.js" type="text/javascript"></script>
-		<script>
+
+
+   <script>
 	    $(function(){
 	        //使用EL表达式传入参数
 		        seckill.detail.init({
@@ -79,6 +83,4 @@
 	       		 });
 	     });
 		</script>
-		
-		
 </html>
