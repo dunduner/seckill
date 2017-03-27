@@ -114,7 +114,7 @@
         <version>4.1.7.RELEASE</version>
     </dependency>
 
-    <!--Redis -->
+    <!--Redis   引入jedis-->
     <dependency>
         <groupId>redis.clients</groupId>
         <artifactId>jedis</artifactId>
