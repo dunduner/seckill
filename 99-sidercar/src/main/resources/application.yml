@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: microservice-sidecar
+server:
+  port: 8070
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761}/eureka/
+  instance:
+    prefer-ip-address: true
+sidecar:
+  port: 8070
+  health-uri: http://localhost:${sidecar.port}/health

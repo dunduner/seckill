@@ -1,0 +1,26 @@
+server:
+  port: 9004
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          # git为public权限，可以不加用户名、密码访问
+          uri: https://github.com/dunduner/springcloudconfig.git
+          #一般都是公共的 账号密码可以省
+          username:
+          password:
+          #修改 yml本地文件存放位置
+          basedir: C:\\localGitRepo\\
+      label: master
+###服务注册到eureka地址
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761}/eureka/

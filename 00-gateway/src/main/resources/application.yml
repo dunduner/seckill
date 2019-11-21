@@ -1,0 +1,26 @@
+server:
+  port: 6604
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: product-server
+          predicates:
+            - Path=/product/**   #当请求路径是/product 就转发到 PRODUCT-SERVICE服务
+          uri: lb://PRODUCT-SERVER
+          filters:
+            #http://localhost:6604/product/products 就到了product-server服务并且同时把路径中的product这部分去掉
+            - StripPrefix= 1
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    config:
+      ####读取后缀
+      profile: dev
+      ####读取config-server注册地址
+      discovery:
+        #configServer在注册中心的别名
+        service-id: config-server
+        enabled: true

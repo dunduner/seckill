@@ -1,0 +1,28 @@
+server:
+  port: 8761   #服务端口号
+
+spring:
+  application: 
+    #服务名称
+    name: eureka-server
+
+eureka:
+  instance:
+    #主机名
+    hostname: localhost
+  client:
+    #registerWithEureka 和 fetchRegistry 设置为false，表明自己属于服务中心主体,防止自己注册
+    register-with-eureka: false
+    fetch-registry:  false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+
+#springboo admin监控平台
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
