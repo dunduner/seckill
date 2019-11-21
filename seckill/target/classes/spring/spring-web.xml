@@ -43,4 +43,13 @@
 	</bean>
 
 
+	<bean id="productService" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass">
+			<value>cn.yunhe.seckill.config.Config</value>
+		</property>
+		<property name="targetMethod">
+			<value>productService</value>
+		</property>
+	</bean>
+
 </beans>		

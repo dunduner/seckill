@@ -1,56 +1,70 @@
-delimiter $$   -- 将换行符分号 改为$$
--- 定义存储过程
--- 参数 in 输入参数   out输出参数，不能用，但是可以赋值
+/*
+ Navicat Premium Data Transfer
 
--- SUCCESS(1,"秒杀成功"),END(0,"秒杀结束") REPEAT_KILL(-1,"重复秒杀"),INNER_ERROR(-2,"系统异常"), DATA_REWRITE(-3,"数据篡改");
-CREATE PROCEDURE `seckill`.`execute_seckill`
-  (in v_seckill_id bigint,in v_phone bigint,in v_kill_time timestamp,out r_result int)
-  BEGIN-- 开始存储过程
-    DECLARE insert_count int DEFAULT 0;-- 定义的一个变量
-    START TRANSACTION;
-		
-    insert ignore into success_killed(seckill_id,user_phone,create_time)  values (v_seckill_id,v_phone,v_kill_time);  -- 插入购买行为语句结束
-    select row_count() into insert_count; -- 将影响的行数放到 自定义的 insert_count中 
-	-- row_count() 返回上一条修改类型（delete insert update）的行数
-	-- row_count: 0:未修改数据; >0:表示修改的行数; <0:sql错误/未执行修改sql
-    IF (insert_count = 0) THEN  
-      ROLLBACK;
-      set r_result = -1;-- 重复秒杀
-    ELSEIF(insert_count < 0) THEN
-      ROLLBACK;
-      SET R_RESULT = -2; -- 系统异常
-    ELSE  -- 插入购买秒杀逻辑成功
-      update seckill set number = number-1  where seckill_id = v_seckill_id and end_time > v_kill_time and start_time < v_kill_time  and number > 0;
-      -- 减库存代码结束
-      select row_count() into insert_count;
-      IF (insert_count = 0) THEN
-        ROLLBACK;
-        set r_result = 0; -- 秒杀结束
-      ELSEIF (insert_count < 0) THEN
-        ROLLBACK;
-        set r_result = -2;-- 系统异常
-      ELSE
-        COMMIT;
-        set r_result = 1; -- 秒杀成功
-      END IF;
-    END IF;
-  END; -- BEGIN的end
-$$
--- 存储过程定义结束
-DELIMITER ; -- 将$$ 转为 ;
+ Source Server         : 116.255.147.245
+ Source Server Type    : MySQL
+ Source Server Version : 50527
+ Source Host           : 116.255.147.245:3306
+ Source Schema         : dszt
 
+ Target Server Type    : MySQL
+ Target Server Version : 50527
+ File Encoding         : 65001
 
+ Date: 01/03/2019 15:46:33
+*/
 
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
--- 定义变量
-set @r_result=-3;
--- 执行存储过程
-call execute_seckill(1,13502178891,now(),@r_result);
--- 获取结果
-select @r_result;
+-- ----------------------------
+-- Table structure for seckill
+-- ----------------------------
+DROP TABLE IF EXISTS `seckill`;
+CREATE TABLE `seckill`  (
+  `seckill_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '秒杀商品的id',
+  `name` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品名称',
+  `number` int(11) NOT NULL COMMENT '库存数量',
+  `start_time` datetime NOT NULL COMMENT '秒杀开始时间',
+  `end_time` datetime NOT NULL COMMENT '秒杀结束时间',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`seckill_id`) USING BTREE,
+  INDEX `idx_start_time`(`start_time`) USING BTREE,
+  INDEX `idx_end_time`(`end_time`) USING BTREE,
+  INDEX `idx_create_time`(`create_time`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
--- 存储过程
--- 1:存储过程优化：事务行级锁持有的时间
--- 2:不要过度依赖存储过程
--- 3:简单的逻辑可以应用存储过程
--- 4:QPS:一个秒杀单6000/qps
+-- ----------------------------
+-- Records of seckill
+-- ----------------------------
+INSERT INTO `seckill` VALUES (1, '100元秒杀红米note', 395, '2017-05-31 20:57:05', '2017-06-10 09:57:09', '2017-03-09 09:57:47');
+INSERT INTO `seckill` VALUES (2, '200元秒杀小米4', 187, '2017-05-24 09:56:38', '2017-08-17 09:56:42', '2017-03-09 09:57:23');
+INSERT INTO `seckill` VALUES (3, '300元秒杀ipad2', 300, '2017-03-08 09:56:07', '2017-03-13 09:56:12', '2017-03-09 09:56:50');
+INSERT INTO `seckill` VALUES (4, '4000元秒杀苹果6', 95, '2017-03-23 09:55:32', '2017-04-01 09:55:47', '2017-03-09 09:56:30');
+INSERT INTO `seckill` VALUES (5, '588秒杀化妆品', 999, '2017-03-29 11:01:14', '2017-04-01 11:01:18', '2017-03-20 11:02:17');
+
+-- ----------------------------
+-- Table structure for success_killed
+-- ----------------------------
+DROP TABLE IF EXISTS `success_killed`;
+CREATE TABLE `success_killed`  (
+  `seckill_id` bigint(20) NOT NULL,
+  `user_phone` bigint(20) NOT NULL COMMENT '无效0  成功1',
+  `state` tinyint(4) NOT NULL DEFAULT -1,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seckill_id`, `user_phone`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of success_killed
+-- ----------------------------
+INSERT INTO `success_killed` VALUES (1, 18888888888, 0, '2017-03-27 16:11:45');
+INSERT INTO `success_killed` VALUES (2, 12312312311, 0, '2017-05-28 23:45:53');
+INSERT INTO `success_killed` VALUES (2, 12345678901, 0, '2017-05-27 16:23:32');
+INSERT INTO `success_killed` VALUES (2, 13423454567, 0, '2017-05-27 15:42:24');
+INSERT INTO `success_killed` VALUES (2, 13623865089, 0, '2017-05-27 14:24:41');
+INSERT INTO `success_killed` VALUES (2, 89898989898, 0, '2017-05-28 23:56:03');
+INSERT INTO `success_killed` VALUES (4, 18888888888, 0, '2017-03-27 16:11:32');
+INSERT INTO `success_killed` VALUES (5, 12312341234, 0, '2017-03-31 16:43:17');
+
+SET FOREIGN_KEY_CHECKS = 1;
