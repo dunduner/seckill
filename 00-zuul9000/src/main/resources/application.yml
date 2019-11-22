@@ -25,7 +25,7 @@ eureka:
 #商品服务路由
 zuul:
   routes:
-    #路由服务2--product-server
+    #路由服务--product-server
     product-server:
       path: /product-gateway/**
       #普通路由
@@ -36,12 +36,16 @@ zuul:
     consumer-service:
       path: /consumer/gateway/**
       serviceId: consumer-service
-  #      http://localhost:9000/api/consumer/gateway/products?username=zhangning
-  #zuul通用配置
-  prefix: /api     #前缀
+      #http://localhost:9000/api/consumer/gateway/products?username=zhangning
+      #zuul通用配置
+      #路由服务2--consumer-service
+    sidecar:
+      path: /sidecar/**
+      serviceId: seckill-sidecar
+  prefix: /v1     #前缀
   retryable: true  #开启路由重试
   ignored-services: "*"  #zuul默认为所有服务开启默认的路由，为了服务安全，此处关闭  *就是忽略所有服务
-
+  sensitive-headers: Access-Control-Allow-Origin,Access-Control-Allow-Methods,Access-Control-Allow-Credentials,Access-Control-Allow-Headers,Access-Control-Expose-Headers,Access-Control-Max-Age
 
 #springboot-admin
 management:

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 
-@Component
+//@Component
 public class ApiGatewayFilter  extends ZuulFilter {
     protected Logger logger = LoggerFactory.getLogger(ApiGatewayFilter .class);
 

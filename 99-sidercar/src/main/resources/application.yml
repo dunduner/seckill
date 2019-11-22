@@ -1,14 +1,19 @@
-spring:
-  application:
-    name: microservice-sidecar
 server:
   port: 8070
+spring:
+  application:
+    name: seckill-sidecar
+
 eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761}/eureka/
   instance:
     prefer-ip-address: true
+
 sidecar:
-  port: 8070
-  health-uri: http://localhost:${sidecar.port}/health
+  #server.port为sidecar监听的端口|sidecar.hostname和port是程序监听的端口号，
+  hostname: 127.0.0.1
+  port: 8080
+  #sidecar.health-uri是程序的可访问的uri地址，它需要返回以下json  "status": "UP"
+  health-uri: http://${sidecar.hostname}:${sidecar.port}/health

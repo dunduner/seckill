@@ -164,8 +164,9 @@ public class SeckillController {
 			String path = request.getSession().getServletContext().getRealPath("/upload");
 			// 定义文件
 			File parent = new File(path);
-			if (!parent.exists())
-				parent.mkdirs();
+			if (!parent.exists()){
+				parent.mkdirs();//路径不存在就创建
+			}
 			// 获取文件名
 			String oldName = file.getOriginalFilename();
 			long size = file.getSize();
