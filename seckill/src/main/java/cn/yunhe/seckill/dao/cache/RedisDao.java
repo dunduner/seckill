@@ -9,8 +9,7 @@ import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import cn.yunhe.seckill.entity.Seckill;
 import cn.yunhe.seckill.util.RedisUtil;
-
-
+//缓存dao
 public class RedisDao {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private JedisPool jedisPool;
