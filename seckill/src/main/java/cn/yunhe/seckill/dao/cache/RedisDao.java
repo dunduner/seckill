@@ -9,7 +9,7 @@ import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import cn.yunhe.seckill.entity.Seckill;
 import cn.yunhe.seckill.util.RedisUtil;
-//缓存dao
+//缓存dao  更改
 public class RedisDao {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private JedisPool jedisPool;
@@ -27,7 +27,7 @@ public class RedisDao {
 			try {
 				String key = "seckill:" + seckillId;
 				// 并没有实现内部序列化操作
-				// get -> byte[] -> 反序列化->Object(Seckill)  
+				// get -> byte[] -> 反序列化->Object(Seckill)
 				//java序列化速度和压缩比都不行，咱们用protostuff
 				// 使用protostuff的前提 :必须是pojo
 				byte[] bytes = jedis.get(key.getBytes());//key得到字节数组
