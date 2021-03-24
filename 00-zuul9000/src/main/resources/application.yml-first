@@ -1,0 +1,33 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: zuul9000
+  #处理中文乱码
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  boot:
+    admin:
+      client:
+        url: http://localhost:8769
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL:http://discovery1:8761}/eureka/
+#springboot-admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

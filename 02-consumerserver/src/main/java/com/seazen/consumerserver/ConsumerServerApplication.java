@@ -3,6 +3,8 @@ package com.seazen.consumerserver;
 import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.RandomRule;
+import com.netflix.loadbalancer.RoundRobinRule;
+import com.seazen.consumerserver.annotation.ExcudeRibbonConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -13,7 +15,11 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.web.client.RestTemplate;
+
+import javax.sql.DataSource;
 
 @EnableHystrix // 注解表示开启断路器
 @EnableCircuitBreaker
@@ -21,36 +27,33 @@ import org.springframework.web.client.RestTemplate;
 @EnableDiscoveryClient
 @SpringBootApplication
 //@EnableFeignClients(basePackages = "com.yunhe.product_api.service.**")
-@EnableFeignClients
+@EnableFeignClients  //打开feign客户端
+//@ComponentScan(excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = ExcudeRibbonConfig.class)})
 public class ConsumerServerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ConsumerServerApplication.class, args);
-	}
-	// 指定ribbon的轮询策略
-	public IRule loadBalanceIRule() {
-		// 打开随机策略
-		return new RandomRule();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ConsumerServerApplication.class, args);
+    }
 
-	// @EnableDiscoveryClient并且加入restTemplate以消费相关的服务。
-	@Bean
-	@LoadBalanced
-	RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    @Bean    //通过RestTemplate来实现调用接口
+    @LoadBalanced     //表示RestTemplate开启了负载均衡
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
 
-	//hystrix监控
-	//http://localhost:8080/hystrix
-	//http://localhost:8080/actuator/hystrix.stream
-	@Bean
-	public ServletRegistrationBean getServlet(){
-		HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
-		ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet);
-		registrationBean.setLoadOnStartup(1);
-		registrationBean.addUrlMappings("/actuator/hystrix.stream");
-		registrationBean.setName("HystrixMetricsStreamServlet");
-		return registrationBean;
-	}
+
+    //hystrix监控
+    //http://localhost:8080/hystrix
+    //http://localhost:8080/actuator/hystrix.stream
+    @Bean
+    public ServletRegistrationBean getServlet() {
+        HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(streamServlet);
+        registrationBean.setLoadOnStartup(1);
+        registrationBean.addUrlMappings("/actuator/hystrix.stream");
+        registrationBean.setName("HystrixMetricsStreamServlet");
+        return registrationBean;
+    }
+
 
 }

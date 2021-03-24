@@ -16,6 +16,7 @@ public interface ProductService {
 
     @RequestMapping(value="/products")
     List<Product> getAlllist();
+
     @RequestMapping(value="/products/{itemCode}")
     Product getProductByitemCode(@PathVariable  String itemCode);
 }

@@ -1,5 +1,5 @@
 server:
-  port: 9001        #  9001
+  port: 9001
 spring:
   application:
     name: dynamiczuul   #最后读的是github上的  dynamiczuul-dev.yml  只有路由放在git上动态路由
@@ -24,3 +24,5 @@ eureka:
     registryFetchIntervalSeconds: 5
     service-url:
       defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761}/eureka/
+webconfig:
+  nname: 配置中心有这个不管用

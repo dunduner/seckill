@@ -15,7 +15,6 @@ public class EurekaServerAll {
 
     /**
      * 获取服务的所有地址（注册在 eureka server 上的服务）
-     *
      * @param eurekaIp
      * @param eurekaPort
      * @param servicename
@@ -54,7 +53,6 @@ public class EurekaServerAll {
 
     /**
      * 随机获取一个微服务的地址
-     *
      * @param eurekaIp
      * @param eurekaPort
      * @param servicename

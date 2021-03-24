@@ -16,7 +16,6 @@
     <name>00-dynamicroutezuul</name>
     <description>动态路由</description>
 
-
     <properties>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,7 +34,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.62</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>

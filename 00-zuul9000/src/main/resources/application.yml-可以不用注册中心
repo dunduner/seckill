@@ -1,0 +1,52 @@
+#自定义服务名配置和要访问的服务消费者负载均衡-可以不用注册中心
+#要关闭eureka
+zuul:
+  routes:
+      #此处名字随便取
+      consumer-server-suibian:
+        path: /zuul-consumerServer/**
+        service-id: no-eureka-consumer-service
+#下面的key要和上面的service-id的value一致。可以不用注册中心
+no-eureka-consumer-service:
+  ribbon:
+    listOfServers: discovery1:8081,discovery2:8082
+#关闭eureka
+ribbon:
+  eureka:
+    enabled: false
+
+
+server:
+  port: 9000
+spring:
+  application:
+    name: zuul9000
+  #处理中文乱码
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  boot:
+    admin:
+      client:
+        url: http://localhost:8769
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    hostname: localhost
+    instance-id: zuul-9000
+  client:
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL:http://discovery1:8761}/eureka/
+#springboot-admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

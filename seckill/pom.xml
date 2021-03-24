@@ -7,9 +7,10 @@
   <groupId>com.seazen</groupId>
   <artifactId>seckill</artifactId>
   <version>1.0-SNAPSHOT</version>
+
   <packaging>war</packaging>
 
-  <name>seckill Maven Webapp</name>
+  <name>seckill</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -303,11 +304,69 @@
       <version>1.9.6</version>
     </dependency>
     <!--引入eureka相关  end-->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.47</version>
+    </dependency>
+
+    <!--引入lib的jar包-->
+   <!-- <dependency>
+      <groupId>com.seazen</groupId>
+      <artifactId>log</artifactId>
+      <version>seazen-V0814</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/log-seazen-V0814.jar</systemPath>
+    </dependency>-->
+
+    <!-- FastDFS Client -->
+    <dependency>
+      <groupId>net.oschina.zcx7878</groupId>
+      <artifactId>fastdfs-client-java</artifactId>
+      <version>1.27.0.0</version>
+    </dependency>
+
+    <!--new 全面的功能-->
+    <dependency>
+      <groupId>com.github.tobato</groupId>
+      <artifactId>fastdfs-client</artifactId>
+      <version>1.27.2</version>
+    </dependency>
+
+  <!--  <dependency>
+      <groupId>com.seazen</groupId>
+      <artifactId>log-0.0.1-SNAPSHOT</artifactId>
+      <version>RELEASE</version>
+      <scope>compile</scope>
+    </dependency>-->
+
+
+    <dependency>
+      <groupId>jcifs</groupId>
+      <artifactId>jcifs</artifactId>
+      <version>1.3.17</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>jcifs</groupId>
+      <artifactId>jcifs</artifactId>
+      <version>1.3.17</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>1.2.47</version>
+    </dependency>
 
   </dependencies>
 
   <build>
     <plugins>
+
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -317,6 +376,14 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 

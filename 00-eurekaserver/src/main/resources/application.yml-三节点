@@ -1,0 +1,65 @@
+#三节点
+spring:
+  application:
+    name: eureka-server
+#  profiles:
+#    active: discovery1
+
+#springboo admin监控平台
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+    shutdown:
+      enabled: true
+#引入自定义属性
+student:
+  name: 张三
+  age: 22
+  score:
+    shuxue: 89
+    yingyu: 67
+    yuwen: 83
+---
+server:
+  port: 8761   #服务端口号
+spring:
+  profiles: discovery1
+eureka:
+  instance:
+    hostname: discovery1
+    #表示客户端向服务器发送心跳的频率，不建议更改此值，因为自我保护假设始终以30秒的间隔接收心跳。
+    lease-renewal-interval-in-seconds: 30
+    #表示服务器在收到最后一次心跳之后等待的持续时间，然后才能从其注册表中删除实例。该值应大于lease-renewal-interval-in-seconds。此值设置得长会影响每分钟实际心跳的精确性，
+    lease-expiration-duration-in-seconds: 90 #默认90
+  client:
+    service-url:
+      defaultZone: http://discovery1:8761/eureka/,http://discovery2:8762/eureka/, http://discovery3:8763/eureka/
+
+---
+server:
+  port: 8762   #服务端口号
+spring:
+  profiles: discovery2
+eureka:
+  instance:
+    hostname: discovery2
+  client:
+    service-url:
+      defaultZone: http://discovery1:8761/eureka/,http://discovery2:8762/eureka/, http://discovery3:8763/eureka/
+
+---
+server:
+  port: 8763   #服务端口号
+spring:
+  profiles: discovery3
+eureka:
+  instance:
+    hostname: discovery3
+  client:
+    service-url:
+      defaultZone: http://discovery1:8761/eureka/,http://discovery2:8762/eureka/, http://discovery3:8763/eureka/

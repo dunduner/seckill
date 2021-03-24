@@ -1,0 +1,50 @@
+﻿<SettingConfig>
+
+    <CurrentSite
+            systemCode="SSO96"
+            key="qBCA0CXbMBUjWUTzCiW5czW2"
+            rsaPublicKey="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzp/0yFKvZn1aDX
+TanbLnsox/aAM6vu62Pa8UD2w74tLxfwkDNrclNZ16ehIjATfg6OgbOg4YotgoDa2NniQ
+vvMykyTVbSTOfooEPGOY0rt+Fuuq+KpmvFrBzqwCklkw1UYerT2ZaGtwrXK6IS3z1VaPx
+Rr+2DPSeTht/WrbarjFxED8tv2yL16x+C7zN/KA4z1CWhKWgJn4e8pfLOWBYDVZADby2o
+FmU7Ktrifi3aZ+ft6u5Erx2QDtSrv+fzPsCYTdS6eTZMJXYdtbhsPZgBU2HwhQwOnyOYG
+i2N/9qopDMczZF7EGyc286sFSKBDwUnMBLgGoM/bw7B9fUZ3/hVQIDAQAB"
+            sessionIdName="JSESSIONID"
+            dateTimeFormat="yyyy-MM-dd HH:mm:ss"
+            IsForbidden="false"
+            IsToolbarForceVisible="true"
+            logoutResponseMode="TXT"
+            defaultReturnUrlScheme=""
+            defaultReturnUrlPort=""
+    />
+
+    <!--
+    defaultReturnUrlScheme=""
+    defaultReturnUrlPort=""
+    -->
+    <!--Cookie的设置
+     版本低name=".xincheng.com",如果版本高就去掉.
+    -->
+    <CookieDomains path="/">
+        <domain name="xincheng.com"
+                regex=".*(.xincheng.com)"
+                myHost="authtest.xincheng.com"
+                loginUrl="https://authtest.xincheng.com:4434/"
+                crossdomainUrl="https://authtest.xincheng.com/crossdomain.aspx"
+                defaultSite="/">
+        </domain>
+        <!--<domain name="xincheng.com" regex=".*(.xincheng.com)"
+                myHost="authtest.xincheng.com "
+                loginUrl="https://authtest.xincheng.com/Login.aspx"
+                crossdomainUrl="https://authtest.xincheng.com/Crossdomain.aspx"
+				defaultSite="https://authtest.xincheng.com/">
+        </domain>-->
+    </CookieDomains>
+
+    <!--免除单点登录验证的文件-->
+    <IncludeFileExtension
+            ext_value=".*(\.ico$|/ims/act/task/form|\.gif$|\.jpg$|\.png$|\.bmp$|\.css$|\.js$|\.jsx$|\.axd|/sys/webservice/.*|/resource/.*)"
+            content_value=".*(/sso_logout$)"
+            for_value=".*(/VerifyCodeAndRememberPwd$|/sso_logout$|/error_sso.jsp$|/clientGetCookiesServlet$)"/>
+
+</SettingConfig>

@@ -10,14 +10,14 @@ import redis.clients.jedis.JedisPoolConfig;
 public class RedisUtil {
 
     //Redis服务器IP
-    private static String ADDR = "127.0.0.1"; //   本地
+    private static String ADDR = null; //从redis.propterties获取
 
     //Redis的端口号
-    private static int PORT = 6379;
+    private static int PORT = 0;//从redis.propterties获取
 
     //访问密码
-    private static String AUTH = null;
-//  private static String AUTH = "123456";
+    //private static String AUTH = null;
+    private static String AUTH = null;//从redis.propterties获取
 
     //可用连接实例的最大数目，默认值为8；
     //如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
@@ -49,24 +49,30 @@ public class RedisUtil {
 //            config.setMaxWait(MAX_WAIT);-----> setMaxWait() 改成了 setMaxWaitMillis()
             config.setMaxWaitMillis(MAX_WAIT);
             config.setTestOnBorrow(TEST_ON_BORROW);
-            jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT,AUTH);
+            Config config1 = new Config();
+            //从redis.propterties获取
+            ADDR = config1.getRedisConfigbyFile("redis.host");
+            PORT = Integer.parseInt(config1.getRedisConfigbyFile("redis.port"));
+            AUTH = config1.getRedisConfigbyFile("redis.auth");
+            jedisPool = new JedisPool(config, ADDR, PORT, TIMEOUT, AUTH);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /**
      * 获取jedis实例
      */
-    public synchronized static Jedis getJedis(){
+    public synchronized static Jedis getJedis() {
         try {
-            if(jedisPool != null){// jedisPool={JedisPool@5551}
+            if (jedisPool != null) {// jedisPool={JedisPool@5551}
                 Jedis jedis = jedisPool.getResource();
                 System.out.println("获取redis成功！");
                 return jedis;// resource={Jedis@5622}
-            }else{
+            } else {
                 return null;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -75,12 +81,12 @@ public class RedisUtil {
     /**
      * 释放jedis资源
      */
-    public static void returnResource(final Jedis jedis){
-        if(jedis!=null){
+    public static void returnResource(final Jedis jedis) {
+        if (jedis != null) {
 //            jedisPool.returnResource(jedis);
             jedisPool.close();
         }
     }
 
-    
+
 }

@@ -19,6 +19,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductEndpoint {
     protected Logger logger = LoggerFactory.getLogger(ProductEndpoint.class);
+
     @Autowired
     private ProductService productService;
 

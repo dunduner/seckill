@@ -15,7 +15,6 @@ public class CrossInterceptor implements Filter {
 
     private final Logger logger = LoggerFactory.getLogger(CrossInterceptor.class);
 
-
     //springboot/springcloud zuul 跨域设置
     @Override
     public void doFilter(ServletRequest request, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -28,14 +27,10 @@ public class CrossInterceptor implements Filter {
         response.addHeader("Access-Control-Max-Age", "1800");// 30 min
         chain.doFilter(request, response);
     }
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
-
     @Override
     public void destroy() {
-
     }
 }

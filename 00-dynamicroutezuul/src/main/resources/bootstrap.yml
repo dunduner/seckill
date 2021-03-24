@@ -1,10 +1,17 @@
 spring:
   cloud:
     config:
+#      name: dynamiczuul
+      #分支
+      label: master
       ####读取后缀
       profile: dev
-      ####读取config-server注册地址
+      #这个是不需要eureka的配置方式
+#      uri: http://localhost:9004  #configServer的地址
+
+      #读取config-server注册地址
       discovery:
         #configServer在注册中心的别名
         service-id: config-server
         enabled: true
+

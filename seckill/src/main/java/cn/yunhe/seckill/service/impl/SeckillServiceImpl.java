@@ -1,18 +1,5 @@
 package cn.yunhe.seckill.service.impl;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.commons.collections.MapUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import cn.yunhe.seckill.dao.SeckillDao;
 import cn.yunhe.seckill.dao.SuccessseckilledDao;
 import cn.yunhe.seckill.dao.cache.RedisDao;
@@ -27,8 +14,18 @@ import cn.yunhe.seckill.exception.SeckillException;
 import cn.yunhe.seckill.service.SeckillService;
 import cn.yunhe.seckill.util.ProtostuffUtil;
 import cn.yunhe.seckill.util.RedisUtil;
-import cn.yunhe.seckill.util.SerializeUtil;
+import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 import redis.clients.jedis.Jedis;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class SeckillServiceImpl implements SeckillService {
@@ -113,6 +110,11 @@ public class SeckillServiceImpl implements SeckillService {
 		return md5;
 	}
 
+	public static void main(String[] args) {
+
+		String name = "hollischuang";
+		System.out.println(name.hashCode());
+	}
 	/**
 	 * 执行秒杀操作 使用注解控制事务方法的要点 1.团队一看就知道你开启了事务,看到注解就知道 这个方法是事务方法
 	 * 2.保证事务方法的执行时间尽量短，不要穿插其他的网络操作 ，减少事务的持有时间

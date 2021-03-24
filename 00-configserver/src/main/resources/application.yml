@@ -1,3 +1,4 @@
+#configServer主要就是连接上git
 server:
   port: 9004
 spring:
@@ -12,6 +13,8 @@ spring:
           #一般都是公共的 账号密码可以省
           username:
           password:
+          #查找配置文件位置
+          #search-paths: config,config/com.xxx.configserver
           #修改 yml本地文件存放位置
           basedir: C:\\localGitRepo\\
       label: master

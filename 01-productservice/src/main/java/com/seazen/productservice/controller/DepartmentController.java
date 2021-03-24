@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -34,17 +35,19 @@ public class DepartmentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Department getDepartmentById(@PathVariable(value = "id") Long id) {
-        Department one = departmentRepository.findById(id).get();
-        return one;
+        Optional<Department> byId = departmentRepository.findById(id);
+        Department department = byId.get();
+//        Department one = departmentRepository.findById(id).get();
+        return department;
     }
 
-    @RequestMapping(value="/add/{department}",method = RequestMethod.GET)
+    @RequestMapping(value = "/add/{department}", method = RequestMethod.GET)
     @ResponseBody
-    public Department addDepartment(@PathVariable("department") String departmentName){
+    public Department addDepartment(@PathVariable("department") String departmentName) {
         Department department = new Department();
         department.setName(departmentName);
         Department departmentSave = departmentRepository.save(department);
-        System.out.println("新增："+departmentSave);
-        return  departmentSave;
+        System.out.println("新增：" + departmentSave);
+        return departmentSave;
     }
 }

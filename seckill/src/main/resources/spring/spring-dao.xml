@@ -16,7 +16,7 @@
 	<!-- 配置整合mybatis -->
 	<!-- 1、配置整合数据库相关参数 -->
 	<context:property-placeholder location="classpath:jdbc.properties"/>
-		
+
 	<!-- 2、数据库的连接池 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="${driver}"/>

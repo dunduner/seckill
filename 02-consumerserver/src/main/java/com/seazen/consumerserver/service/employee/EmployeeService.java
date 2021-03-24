@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Service
-@FeignClient(value = "product-server",fallbackFactory = EmployeeFallBack.class)
-//@FeignClient(value = "PRODUCT-SERVER")
+//configuration ={FeignLogConfiguration.class}
+@FeignClient(value = "PRODUCT-SERVER",fallbackFactory = EmployeeFallBack.class)
 public interface EmployeeService {
 	
 	@RequestMapping(value="/employee/{id}")
 	Employee getEmployeeById(@PathVariable(value = "id") Long id);
 	@RequestMapping(value = "/employee/list", method = RequestMethod.GET)
-	public List<Employee> list();
+	List<Employee> list();
 
 }

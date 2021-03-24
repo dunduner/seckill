@@ -4,7 +4,7 @@ server:
 spring:
   application:
     name: admin-server
-    #spring security的用户名和密码
+#spring security的用户名和密码
   security:
     user:
       name: "admin"

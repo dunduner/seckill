@@ -1,10 +1,10 @@
 package cn.yunhe.seckill.dao;
 
-import java.util.List;
-import java.util.Map;
-
 import cn.yunhe.seckill.entity.Seckill;
 import cn.yunhe.seckill.entity.Successseckilled;
+
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -16,7 +16,6 @@ public interface SeckillDao {
 
 	/**
 	 * 减库存
-	 * 
 	 * @param seckillId
 	 * @param killTime
 	 * 秒杀的时间 如果影响行数大于1，标示更新的记录行数

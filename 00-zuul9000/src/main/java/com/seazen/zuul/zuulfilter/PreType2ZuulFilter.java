@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 
+/*前置过滤器
+ * */
 //@Component
 public class PreType2ZuulFilter extends ZuulFilter {
     protected Logger logger = LoggerFactory.getLogger(PreType2ZuulFilter.class);
@@ -18,19 +20,23 @@ public class PreType2ZuulFilter extends ZuulFilter {
     @Override
     public boolean shouldFilter() {// 判断是否需要执行该过滤器;
         RequestContext ctx = RequestContext.getCurrentContext();
+        HttpServletRequest request = ctx.getRequest();
+        String token = request.getHeader("token");
+        System.out.println("pre来源：" + request.getRequestURI());
+        System.out.println("====token:" + token);
         System.out.println("Pre2：shouldFilter方法-----RequestContext:" + ctx.toString());
         return true;//true需要执行此过滤器，false此过滤器不执行
     }
 
     @Override
     public Object run() {// 所要执行的具体过滤动作。
-            return null;
+
+        return null;
     }
-//	Type: 定义在请求执行过程中何时被执行;
-//	Execution Order: 当存在多个过滤器时，用来指示执行的顺序，值越小就会越早执行;
+
+    //	Type: 定义在请求执行过程中何时被执行;
 //	Criteria: 执行的条件，即该过滤器何时会被触发;
 //	Action: 具体的动作。
-
     @Override
     public String filterType() {// filterType()方法是该过滤器的类型;
         return PRE_TYPE;
@@ -41,9 +47,11 @@ public class PreType2ZuulFilter extends ZuulFilter {
 //		Zuul过滤器的类型其实也是Zuul过滤器的生命周期，通过下面这张图来了解它们的执行过程。
     }
 
+    //    Execution Order: 当存在多个过滤器时，用来指示执行的顺序，值越小就会越早执行;
     @Override
     public int filterOrder() {// filterOrder()方法返回的是执行顺序;
 //        return PRE_DECORATION_FILTER_ORDER;
+        //数值越小的越先执行
         return 1;
     }
 

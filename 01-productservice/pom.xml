@@ -8,15 +8,17 @@
         <version>2.1.2.RELEASE</version>
         <relativePath/>
     </parent>
+
     <groupId>com.seazen</groupId>
     <artifactId>01-productservice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>01-productservice</name>
-    <description>Demo project for Spring Boot</description>
+    <description>服务提供方</description>
 
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+        <docker.image.prefix>dunduner</docker.image.prefix>
     </properties>
 
     <dependencyManagement>
@@ -32,6 +34,32 @@
     </dependencyManagement>
 
     <dependencies>
+        <!--链路追踪sleuth-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+        <!--链路追踪zipkin-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+        <!--引入外包jar包-->
+       <dependency>
+            <groupId>com</groupId>
+            <artifactId>log</artifactId>
+            <scope>system</scope>
+            <version>0.0.1-SNAPSHOT</version>
+            <systemPath>${project.basedir}/lib/log-0.0.1-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <!--引入日志maven坐标方式-->
+        <!--
+        <dependency>
+                    <groupId>com</groupId>
+                    <artifactId>log</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+                -->
         <!--引入webflux的起步依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,10 +73,10 @@
             <version>2.1.0</version>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>-->
+        </dependency>
         <!--eureka客户端依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -60,13 +88,18 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!--security安全认证-->
+       <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>-->
+
         <!--测试-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!--新加：引入jpa依赖 -->
         <dependency>
             <groupId>mysql</groupId>
@@ -78,6 +111,31 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
+        <!--logstash插件-->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.49</version>
+        </dependency>
+        <!--jwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+        <!--apache 加密-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -85,7 +143,29 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
+            <!-- Docker maven plugin -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <baseImage>java</baseImage>
+                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <!-- Docker maven plugin -->
         </plugins>
     </build>
 

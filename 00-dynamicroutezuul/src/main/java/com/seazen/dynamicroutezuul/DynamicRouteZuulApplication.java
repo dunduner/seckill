@@ -23,7 +23,7 @@ public class DynamicRouteZuulApplication {
 
     /**
      * git地址：      https://github.com/dunduner/springcloudconfig/blob/master/dynamiczuul-dev.yml
-     * 刷新地址：POST http://127.0.0.1:9001/actuator/refresh
+     * 刷新地址：POST  http://127.0.0.1:9001/actuator/refresh
      * 路由查看地址：GET http://127.0.0.1:9001/actuator/routes
      * @return
      */

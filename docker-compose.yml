@@ -1,0 +1,17 @@
+version: "v0.0.1"
+services:
+  eureka-server:
+    build: ./eurekaserver  #Dockerfile路径
+    ports:
+      - "8761:8761"#端口映射
+    expose:
+      - 8761
+
+  product-server:
+    build: ./productservice
+    ports:
+      - "2100:2100"
+    expose:
+      - 2100
+      links:
+        - eureka

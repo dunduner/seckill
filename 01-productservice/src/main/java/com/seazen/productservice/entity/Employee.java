@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 
+//员工实体类
 @Entity
 @Table(name = "tbl_employee") // 指定关联的数据库的表名
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"hibernateLazyInitializer", "handler", "fieldHandler"})

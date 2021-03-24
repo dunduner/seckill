@@ -1,0 +1,48 @@
+#忽略默认服务名和正则忽略
+zuul:
+  routes:
+    consumer-service:
+      path: /xiaofei-zuul/**
+      service-id: consumer-service
+#忽略服务
+#  ignored-services:
+#    - consumer-service
+#忽略正则
+  #ignored-patterns:
+  #  - /**/**
+#忽略全部
+  ignored-services: '*'   # 使用'*'可忽略所有微服务
+server:
+  port: 9000
+spring:
+  application:
+    name: zuul9000
+  #处理中文乱码
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  boot:
+    admin:
+      client:
+        url: http://localhost:8769
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    hostname: localhost
+    instance-id: online-taxi-zuul-9000
+  client:
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL:http://discovery1:8761}/eureka/
+#springboot-admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

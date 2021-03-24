@@ -4,27 +4,57 @@ server:
 spring:
   application:
     name: product-server #服务名称
+  #开启安全认证-调用接口需要认证
+#  security:
+#    user:
+#      name: root
+#      password: root
   boot:
     admin:
       client:
-        url: http://localhost:8769
+        url: http://127.0.0.1:8769
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8
+    url: jdbc:mysql://49.235.166.226:3521/test?setUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
-    password: 123456
-
+    password: 3edc#EDC
+  zipkin:
+    base-url: http://localhost:9411/
+    sleuth:
+      sampler:
+        rate: 1
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
 eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
+    #租期更新时间间隔 （单位秒，默认30秒）
     leaseRenewalIntervalInSeconds: 10
+    #租期到期时间 （单位秒，默认90秒）
+    leaseExpirationDurationInSeconds: 30
     health-check-url-path: /actuator/health
+    #自定义客户端元数据
+    metadataMap:
+      username: 张宁
+      user.name: zhangsan
+      user.age: 18
   client:
+    healthcheck:
+      enabled: true  #健康检查，假如client的mysql挂了  可以/actuator/health看到db的DOWN状态
     registryFetchIntervalSeconds: 5
     service-url:
-      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761}/eureka/
-#springboot-admin
+#      defaultZone: ${EUREKA_SERVICE_URL:http://discovery1:8761}/eureka/, ${EUREKA_SERVICE_URL:http://discovery2:8762}/eureka/, ${EUREKA_SERVICE_URL:http://discovery3:8763}/eureka/
+      defaultZone: ${EUREKA_SERVICE_URL:http://discovery1:8761}/eureka/
+#springboot-admin相关配置
 management:
   endpoints:
     web:
@@ -33,3 +63,24 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
+
+---
+server:
+  port: 2101
+spring:
+  profiles: 2101-v1
+eureka:
+  instance:
+    metadata-map:
+      version: v1
+
+
+---
+server:
+  port: 2102
+spring:
+  profiles: 2102-v2
+eureka:
+  instance:
+    metadata-map:
+      version: v2

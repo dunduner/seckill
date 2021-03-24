@@ -31,6 +31,7 @@ public class ProductEndpoint {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Product> list() {
+		logger.info("/products+查询所有！");
 		return this.buildProducts();
 	}
 
